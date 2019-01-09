@@ -1,0 +1,12 @@
+mock:
+  sockjs-enabled: false
+  cors-enabled: true
+  handlers:
+  - request:
+      command: CONNECT
+    response:
+      command: CONNECTED
+      headers:
+        server: RabbitMQ/3.6.5
+        version: 1.1
+        user-name: User [id=46960]
