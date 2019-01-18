@@ -2,7 +2,7 @@ This is a mock websocket server similar to WireMock to simulate responses for te
 
 See below command line to run it:
 ```
-mvn spring-boot:run -Dspring.config.location=file:/Users/me/mock-websocket-application.yml
+mvn spring-boot:run -Dserver.port=8080 -Dspring.config.location=file:/Users/me/mock-websocket-application.yml
 ``` 
 
 where ```mock-websocket-application.yml``` is an external application.yml file containing the request/response samples.
@@ -25,23 +25,23 @@ mock:
   - request:
       command: SUBSCRIBE
       headers:
-        destination: '/topic/user.46398'
+        destination: '/topic/user.{userId}'
     response:
       command: MESSAGE
       headers:
-        destination: /topic/user.46398
+        destination: /topic/user.#{userId}
         content-type: application/json;charset=UTF-8
       payload: '{"msg" : "hello"}'
   - request:
       command: SEND
       headers:
-        destination: /app/publish/rtc-message-thread.162502
+        destination: /app/publish/message-thread.#{threadId}
         content-length: 16
       payload: '{"type":"ready"}'
     responses:
     - command: MESSAGE
       headers:
-        destination: /topic/rtc-message-thread.162502
+        destination: /topic/message-thread.#{threadId}
         message-id: T_sub-0@@session-bHups5kzrjprak8H6cxFUw@@1
         content-type: application/json;charset=UTF-8
         content-length: 16
@@ -53,3 +53,5 @@ mock:
       payload: '{"type":"done"}'
 
 ```
+
+As you can see above, you can also define variables (#{userId} and #{threadId}) in the request and use them in response headers or payload.  
